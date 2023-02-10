@@ -1,5 +1,12 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  ssr: false,
+
+  app: {
+    baseURL: '/interval-timer/',
+    buildAssetsDir: "/i/",
+  },
+
   modules: [
     '@nuxtjs/tailwindcss'
   ],
@@ -7,4 +14,5 @@ export default defineNuxtConfig({
   css: [
     '~/assets/css/index.css',
   ],
+
 })
