@@ -1,0 +1,16 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "@nuxtjs/tailwindcss": "^6.3.1",
+    "@volar/vue-language-plugin-pug": "^1.0.24",
+    "nuxt": "^3.1.2",
+    "vite-plugin-pug": "^0.3.2"
+  }
+}

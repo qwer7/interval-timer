@@ -1,0 +1,14 @@
+/* @import 'reset.css'; */
+/* @import 'theme-light.css';
+@import 'theme-dark.css'; */
+@import 'nuxt.css';
+/* @import 'icons.css'; */
+
+html {
+}
+
+body {
+  background: #eee;
+  color: #333;
+  /* font-family: "RoobertPRO",sans-serif; */
+}
