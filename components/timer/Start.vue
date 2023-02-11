@@ -2,7 +2,6 @@
 const emit = defineEmits(['start'])
 
 function onStart(){
-  console.log('on start')
   emit('start')
 }
 </script>

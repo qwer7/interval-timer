@@ -1,19 +1,13 @@
 <script setup lang="ts">
-
-interface IProgress{
-  ready: number
-  work: number
-  relax: number
-  rounds: number
-}
+import type { Progress } from './types';
 
 const props = defineProps<{
-  settings: IProgress
-  progress: IProgress
+  settings: Progress
+  progress: Progress
 }>()
 
-// const positiveProgress = computed<IProgress>(()=>({
-//   ready: props.settings.ready - props.progress.ready,
+// const positiveProgress = computed<Progress>(()=>({
+//   prepare: props.settings.prepare - props.progress.prepare,
 //   work: props.settings.work - props.progress.work,
 //   relax: props.settings.relax - props.progress.relax,
 //   rounds: props.settings.rounds - props.progress.rounds,
@@ -23,9 +17,9 @@ function toTimeFormat( seconds :number){
   return new Date(seconds * 1000).toISOString().substring(14, 19)
 }
 
-type HumanTimer = Record<keyof IProgress, string>
+type HumanTimer = Record<keyof Progress, string>
 const humanTimer = computed<HumanTimer>(()=>({
-  ready: `${props.progress.ready}`,
+  prepare: `${props.progress.prepare}`,
   work: toTimeFormat(props.progress.work),
   relax: toTimeFormat(props.progress.relax),
   rounds: `${props.settings.rounds - props.progress.rounds}`,
@@ -34,21 +28,22 @@ const humanTimer = computed<HumanTimer>(()=>({
 </script>
 
 <template lang="pug">
-.pb-16
-  template(v-if="progress.ready")
-    .p-4.bg-gray-200.rounded-lg.shadow
+.pb-8
+  template(v-if="progress.prepare")
+    Card
       .text-center.text-2xl Готовимся
-      .p-2.text-center.text-8xl.font-mono {{ humanTimer.ready }}
+      .p-2.text-center.text-8xl.font-mono {{ humanTimer.prepare }}
   template(v-else-if="progress.work")
-    .p-4.bg-gray-200.rounded-lg.shadow
+    Card
       .text-center.text-2xl Работаем
       .p-2.text-center.text-8xl.font-mono {{ humanTimer.work }}
   template(v-else-if="progress.relax")
-    .p-4.bg-gray-200.rounded-lg.shadow
+    Card
       .text-center.text-2xl Отдыхаем
       .p-2.text-center.text-8xl.font-mono {{ humanTimer.relax }}
   .mb-4
-  .w-40.p-2.flex.flex-col.bg-gray-200.rounded-lg.shadow
+  //- .w-40.p-2.flex.flex-col.bg-gray-200.rounded-lg.shadow
+  Card(class="w-1/2")
     .text-center.text-2xl Раунды
     .flex.items-center.justify-center
       .text-center.text-3xl {{ humanTimer.rounds }}

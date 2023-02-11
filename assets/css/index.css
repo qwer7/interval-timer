@@ -8,7 +8,8 @@ html {
 }
 
 body {
-  background: #eee;
+  background: rgb(136,139,171);
+  background: linear-gradient(131deg, rgba(136,139,171,1) 10%, rgba(184,153,200,1) 50%, rgba(148,190,199,1) 90%);
   color: #333;
   /* font-family: "RoobertPRO",sans-serif; */
 }
