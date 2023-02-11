@@ -1,6 +1,7 @@
 <script setup lang="ts">
 
 interface IProgress{
+  ready: number
   work: number
   relax: number
   rounds: number
@@ -11,11 +12,12 @@ const props = defineProps<{
   progress: IProgress
 }>()
 
-const positiveProgress = computed<IProgress>(()=>({
-  work: props.settings.work - props.progress.work,
-  relax: props.settings.relax - props.progress.relax,
-  rounds: props.settings.rounds - props.progress.rounds,
-}))
+// const positiveProgress = computed<IProgress>(()=>({
+//   ready: props.settings.ready - props.progress.ready,
+//   work: props.settings.work - props.progress.work,
+//   relax: props.settings.relax - props.progress.relax,
+//   rounds: props.settings.rounds - props.progress.rounds,
+// }))
 
 function toTimeFormat( seconds :number){
   return new Date(seconds * 1000).toISOString().substring(14, 19)
@@ -23,6 +25,7 @@ function toTimeFormat( seconds :number){
 
 type HumanTimer = Record<keyof IProgress, string>
 const humanTimer = computed<HumanTimer>(()=>({
+  ready: `${props.progress.ready}`,
   work: toTimeFormat(props.progress.work),
   relax: toTimeFormat(props.progress.relax),
   rounds: `${props.settings.rounds - props.progress.rounds}`,
@@ -31,8 +34,12 @@ const humanTimer = computed<HumanTimer>(()=>({
 </script>
 
 <template lang="pug">
-.p-16
-  template(v-if="progress.work")
+.pb-16
+  template(v-if="progress.ready")
+    .p-4.bg-gray-200.rounded-lg.shadow
+      .text-center.text-2xl Готовимся
+      .p-2.text-center.text-8xl.font-mono {{ humanTimer.ready }}
+  template(v-else-if="progress.work")
     .p-4.bg-gray-200.rounded-lg.shadow
       .text-center.text-2xl Работаем
       .p-2.text-center.text-8xl.font-mono {{ humanTimer.work }}

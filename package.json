@@ -7,7 +7,7 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "deploy": "push-dir --dir=.output/public --branch=pages --cleanup",
-    "push": "yarn generate && yarn deploy"
+    "pages": "yarn generate && yarn deploy"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^6.3.1",
