@@ -18,11 +18,14 @@ export default defineNuxtConfig({
   },
 
   modules: [
-    '@nuxtjs/tailwindcss'
+    '@nuxtjs/tailwindcss',
   ],
 
   css: [
     '~/assets/css/index.css',
   ],
 
+  tailwindcss: {
+    viewer: false,
+  },
 })

@@ -116,16 +116,23 @@ const status = computed<Status>(()=>{
   return 'restart'
 })
 
+
 </script>
 
 <template lang="pug">
-.p-4.rounded-lg(
-  class="backdrop-blur bg-white/20"
+div(
+  class=` p-0 w-full h-full
+          sm:p-4 sm:w-auto sm:h-auto sm:rounded-lg
+          backdrop-blur bg-white/20`
 )
-  .p-8.rounded(
-    class="w-[500px] bg-white"
+  div(
+    class=` p-4 w-full h-full flex flex-col justify-center
+            sm:p-8 sm:w-[500px] sm:rounded
+            text-slate-700 bg-white
+            dark:text-sky-200/50 dark:bg-slate-700`
   )
     EverySecond(@tick="everySecond")
+
     template(v-if="['wait', 'pause'].includes(status)")
       TimerProgress(
         :settings="currentTimeSetting"
