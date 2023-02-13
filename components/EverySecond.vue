@@ -1,4 +1,8 @@
 <script setup lang="ts">
+const props = defineProps<{
+  enable: boolean
+}>()
+
 const emit = defineEmits(['tick'])
 
 let interval = 0
@@ -9,13 +13,19 @@ function everySecond(){
   emit('tick', counter)
 }
 
-onMounted(()=>{
+function startInterval() {
   interval = setInterval(()=>{
     everySecond()
   }, 1000)
-})
+}
+
 onBeforeUnmount(()=> {
-  clearInterval(interval)
+  interval && clearInterval(interval)
+})
+
+watch(() => props.enable, (enable)=>{
+  interval && clearInterval(interval)
+  enable && startInterval()
 })
 </script>
 

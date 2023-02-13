@@ -38,9 +38,10 @@ const timeLeft = computed(()=>{
 <template lang="pug">
 .pb-8
   template(v-if="progress.prepare")
-    Card
-      .text-center.text-2xl Готовимся
-      .p-2.text-center.text-8xl.font-mono {{ humanTimer.prepare }}
+    slot(name="prepare")
+      Card
+        .text-center.text-2xl Готовимся
+        .p-2.text-center.text-8xl.font-mono {{ humanTimer.prepare }}
   template(v-else-if="progress.work")
     Card
       .text-center.text-2xl Работаем

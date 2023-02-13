@@ -2,8 +2,7 @@
 import type { Progress } from './types';
 import { sounds, playSound } from "~~/modules/sounds"
 
-type State = 'waiting' | 'running'
-const state = ref<State>('waiting')
+const isRunning = ref(false)
 
 const defaultTimerSetting = {
   prepare: 3,
@@ -29,12 +28,15 @@ function onBeforeRelax() {
 }
 
 function resetProgress(){
-  progress.value = { ...currentTimeSetting }
+  prepareAnimation.value = false
+  setTimeout(()=>{
+    progress.value = { ...currentTimeSetting }
+  },10)
 }
 
 function increaseProgressRound() {
   if( !progress.value.rounds ){
-    state.value = 'waiting'
+    isRunning.value = false
     return
   }
 
@@ -64,27 +66,30 @@ function increaseProgress(){
 }
 
 function everySecond(second: number){
-  if(state.value === 'running'){
+  if(isRunning.value){
     increaseProgress()
   }
 }
 
 function onReStart(){
   resetProgress()
-  state.value = 'waiting'
+  isRunning.value = false
 }
 
 function onStart(){
-  state.value = 'running'
+  if(status.value === 'wait'){
+    resetProgress()
+  }
+  isRunning.value = true
 }
 
 function onStop(){
-  state.value = 'waiting'
+  isRunning.value = false
   resetProgress()
 }
 
 function onPause(){
-  state.value = 'waiting'
+  isRunning.value = false
 }
 
 function allTime(obj: Progress) {
@@ -97,7 +102,7 @@ const status = computed<Status>(()=>{
   const startTime = allTime(currentTimeSetting)
   const timeDifference = startTime - progressTime
   //  Waiting status
-  if(state.value === 'waiting'){
+  if(!isRunning.value){
     return progressTime === 0
       ? 'restart'
       : timeDifference === 0
@@ -105,7 +110,7 @@ const status = computed<Status>(()=>{
         : 'pause'
   }
   //  Running status
-  if(state.value === 'running'){
+  if(isRunning.value){
     return progress.value.prepare
     ? 'prepare'
     : progress.value.work
@@ -116,6 +121,14 @@ const status = computed<Status>(()=>{
   return 'restart'
 })
 
+const prepareAnimation = ref(false)
+
+watch(()=>[progress.value.prepare], ([prepare])=>{
+  if(prepare <= 3 && isRunning.value && !prepareAnimation.value){
+    console.log(prepare, isRunning.value, prepareAnimation.value)
+    prepareAnimation.value = true
+  }
+})
 
 </script>
 
@@ -131,7 +144,10 @@ div(
             text-slate-700 bg-white
             dark:text-sky-200/50 dark:bg-slate-700`
   )
-    EverySecond(@tick="everySecond")
+    EverySecond(
+      :enable="isRunning"
+      @tick="everySecond"
+    )
 
     template(v-if="['wait', 'pause'].includes(status)")
       TimerProgress(
@@ -139,11 +155,37 @@ div(
         :progress="progress"
       )
       TimerStart(@start="onStart")
-    template(v-if="state==='running'")
+    //- template(v-if="status === 'prepare'")
+    //-   Card
+    //-     .text-center.text-2xl.opacity-50 Готовимся
+    //-     .h-28.p-2.flex.items-center.justify-center(
+    //-       @click="prepareAnimation = !prepareAnimation"
+    //-     )
+    //-       Transition(
+    //-         name="countdown"
+    //-         @afterEnter="prepareAnimation = false"
+    //-       )
+    //-         .text-center.text-6xl.font-mono(
+    //-           v-if="prepareAnimation"
+    //-         ) {{ progress.prepare }}
+    template(v-else-if="isRunning")
       TimerProgress(
         :settings="currentTimeSetting"
         :progress="progress"
       )
+        template(#prepare)
+          Card
+            .text-center.text-2xl.opacity-50 Готовимся
+            .h-28.p-2.flex.items-center.justify-center(
+              @click="prepareAnimation = !prepareAnimation"
+            )
+              Transition(
+                name="countdown"
+                @afterEnter="prepareAnimation = false"
+              )
+                .text-center.text-6xl.font-mono(
+                  v-if="prepareAnimation"
+                ) {{ progress.prepare }}
       TimerRun(
         @stop="onStop"
         @pause="onPause"
@@ -153,3 +195,58 @@ div(
         @click="onReStart"
       ) Перезапуск
 </template>
+
+<style>
+.countdown-enter-active {
+  transition: all 0.0s ease;
+  opacity: 0.5
+}
+.countdown-leave-active {
+  animation: countdown-in .9s
+}
+
+@keyframes countdown-in {
+  0% {
+    margin-right: 0%;
+    font-size: 60px;
+    opacity: 0.5
+  }
+
+  40% {
+    margin-right: 0%;
+    font-size: 96px;
+    opacity: 1
+  }
+
+  100% {
+    margin-right: 40%;
+    font-size: 64px;
+    opacity: 0.00
+  }
+}
+/* .prepare-animation {
+  animation-duration: .9s;
+  animation-name: slidein;
+  animation-iteration-count: infinite;
+}
+
+@keyframes slidein {
+  0% {
+    margin-right: 0%;
+    font-size: 64px;
+    opacity: 0.5
+  }
+
+  30% {
+    margin-right: 0%;
+    font-size: 96px;
+    opacity: 1
+  }
+
+  100% {
+    margin-right: 40%;
+    font-size: 64px;
+    opacity: 0.00
+  }
+} */
+</style>
