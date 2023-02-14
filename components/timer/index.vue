@@ -199,7 +199,9 @@ div(
 <style>
 .countdown-enter-active {
   transition: all 0.0s ease;
-  opacity: 0.5
+  opacity: 0.5;
+  margin-left: 30%;
+  font-size: 60px;
 }
 .countdown-leave-active {
   animation: countdown-in .9s
@@ -207,7 +209,7 @@ div(
 
 @keyframes countdown-in {
   0% {
-    margin-right: 0%;
+    margin-left: 30%;
     font-size: 60px;
     opacity: 0.5
   }
@@ -218,9 +220,15 @@ div(
     opacity: 1
   }
 
+  55% {
+    margin-right: 0%;
+    font-size: 96px;
+    opacity: 1
+  }
+
   100% {
-    margin-right: 40%;
-    font-size: 64px;
+    margin-right: 50%;
+    font-size: 54px;
     opacity: 0.00
   }
 }

@@ -44,22 +44,22 @@ const timeLeft = computed(()=>{
         .p-2.text-center.text-8xl.font-mono {{ humanTimer.prepare }}
   template(v-else-if="progress.work")
     Card
-      .text-center.text-2xl Работаем
+      .text-center.text-2xl.opacity-50 Работаем
       .p-2.text-center.text-8xl.font-mono {{ humanTimer.work }}
   template(v-else-if="progress.relax")
     Card
-      .text-center.text-2xl Отдыхаем
+      .text-center.text-2xl.opacity-50 Отдыхаем
       .p-2.text-center.text-8xl.font-mono {{ humanTimer.relax }}
   .mb-4
   .grid.grid-cols-2.gap-4
     Card
-      .text-center.text-2xl Раунды
+      .text-center.text-2xl.opacity-50 Раунды
       .flex.items-center.justify-center
         .text-center.text-3xl {{ humanTimer.rounds }}
         .px-1.text-center.text-3xl /
         .text-center.text-3xl {{ settings.rounds }}
     Card
-      .text-center.text-2xl Осталось
+      .text-center.text-2xl.opacity-50 Осталось
       .text-center.text-3xl {{ timeLeft }}
 
 </template>
