@@ -1,73 +1,27 @@
 <script setup lang="ts">
 import type { Progress } from './types';
 import { sounds, playSound } from "~~/modules/sounds"
+import { countdown } from '~~/modules/countdown';
+
 
 const isRunning = ref(false)
-
-const defaultTimerSetting = {
-  prepare: 3,
-  work: 15,
-  relax: 7,
-  rounds: 15,
-}
-// const defaultTimerSetting = {
-//   prepare: 3,
-//   work: 1,
-//   relax: 4,
-//   rounds: 3,
-// }
-const currentTimeSetting = reactive({ ...defaultTimerSetting })
-
-const progress = ref({ ...currentTimeSetting })
-
-function onBeforeWork() {
-  playSound(sounds.start)
-}
-function onBeforeRelax() {
-  playSound(sounds.relax)
-}
+const progress = ref<Progress>(countdown.getResetProgress())
 
 function resetProgress(){
   prepareAnimation.value = false
   setTimeout(()=>{
-    progress.value = { ...currentTimeSetting }
+    progress.value = countdown.getResetProgress()
   },10)
 }
 
-function increaseProgressRound() {
-  if( !progress.value.rounds ){
-    isRunning.value = false
-    return
-  }
-
-  progress.value.work = currentTimeSetting.work
-  progress.value.relax = currentTimeSetting.relax
-  progress.value.rounds--
-}
-
-function increaseProgress(){
-
-  if( progress.value.prepare ){
-    progress.value.prepare--
-    !progress.value.prepare && onBeforeWork()
-  }
-  else if( progress.value.work ){
-    progress.value.work--
-    !progress.value.work && onBeforeRelax()
-  }
-  else if( progress.value.relax ){
-    progress.value.relax--
-    !progress.value.relax && onBeforeWork()
-  }
-
-
-  if( !progress.value.work && !progress.value.relax  )
-    increaseProgressRound()
+function countdownEvent(name: string) {
+  if(name === 'beforeWork') playSound(sounds.start)
+  if(name === 'beforeRelax') playSound(sounds.relax)
 }
 
 function everySecond(second: number){
   if(isRunning.value){
-    increaseProgress()
+    progress.value = countdown.tick(progress.value, countdownEvent)
   }
 }
 
@@ -92,40 +46,13 @@ function onPause(){
   isRunning.value = false
 }
 
-function allTime(obj: Progress) {
-  return Object.values(obj).reduce((acc, v) => acc + v, 0)
-}
-
 type Status = 'wait' | 'pause' | 'prepare' | 'work' | 'relax' | 'restart'
-const status = computed<Status>(()=>{
-  const progressTime = allTime(progress.value)
-  const startTime = allTime(currentTimeSetting)
-  const timeDifference = startTime - progressTime
-  //  Waiting status
-  if(!isRunning.value){
-    return progressTime === 0
-      ? 'restart'
-      : timeDifference === 0
-        ? 'wait'
-        : 'pause'
-  }
-  //  Running status
-  if(isRunning.value){
-    return progress.value.prepare
-    ? 'prepare'
-    : progress.value.work
-      ? 'work'
-      : 'relax'
-  }
-  // For exception situation
-  return 'restart'
-})
+const status = computed<Status>(()=> countdown.getStatus(progress.value, isRunning.value));
 
 const prepareAnimation = ref(false)
 
 watch(()=>[progress.value.prepare], ([prepare])=>{
   if(prepare <= 3 && isRunning.value && !prepareAnimation.value){
-    console.log(prepare, isRunning.value, prepareAnimation.value)
     prepareAnimation.value = true
   }
 })
@@ -148,10 +75,9 @@ div(
       :enable="isRunning"
       @tick="everySecond"
     )
-
     template(v-if="['wait', 'pause'].includes(status)")
       TimerProgress(
-        :settings="currentTimeSetting"
+        :settings="countdown.getResetProgress()"
         :progress="progress"
       )
       TimerStart(@start="onStart")
@@ -170,7 +96,7 @@ div(
     //-         ) {{ progress.prepare }}
     template(v-else-if="isRunning")
       TimerProgress(
-        :settings="currentTimeSetting"
+        :settings="countdown.getResetProgress()"
         :progress="progress"
       )
         template(#prepare)
@@ -232,29 +158,4 @@ div(
     opacity: 0.00
   }
 }
-/* .prepare-animation {
-  animation-duration: .9s;
-  animation-name: slidein;
-  animation-iteration-count: infinite;
-}
-
-@keyframes slidein {
-  0% {
-    margin-right: 0%;
-    font-size: 64px;
-    opacity: 0.5
-  }
-
-  30% {
-    margin-right: 0%;
-    font-size: 96px;
-    opacity: 1
-  }
-
-  100% {
-    margin-right: 40%;
-    font-size: 64px;
-    opacity: 0.00
-  }
-} */
 </style>
