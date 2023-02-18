@@ -7,11 +7,13 @@ const props = defineProps<{
   status: Status
 }>()
 
+const { t } = useI18n()
+
 const runningTitle = computed<string>(() => {
   const title = {
-    'prepare': 'Готовимся',
-    'work': 'Работаем',
-    'relax': 'Отдыхаем',
+    'prepare': t('ready'),
+    'work': t('work'),
+    'relax': t('relax'),
   }
   const runningStatus = countdown.getStatus(props.progress, true) as keyof typeof title
   return title[runningStatus] ?? ''

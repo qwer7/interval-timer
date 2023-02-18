@@ -3,7 +3,6 @@ import type { Progress, Status } from './types';
 import { sounds, playSound } from "~~/modules/sounds"
 import { countdown } from '~~/modules/countdown';
 
-
 const isRunning = ref(false)
 const progress = ref<Progress>(countdown.getResetProgress())
 
@@ -72,11 +71,11 @@ div(
     TimerInfoPanel(:progress="progress")
     //- Command panel
     template(v-if="['wait', 'pause'].includes(status)")
-      Button(@click="onStart") Старт
+      Button(@click="onStart") {{ $t('start') }}
     template(v-else-if="isRunning")
       .grid.grid-cols-2.gap-4
-        Button(@click="onStop") Стоп
-        Button(@click="onPause") Пауза
+        Button(@click="onStop") {{ $t('stop') }}
+        Button(@click="onPause") {{ $t('pause') }}
     template(v-else)
-      Button(@click="onReStart") Перезапуск
+      Button(@click="onReStart") {{ $t('restart') }}
 </template>

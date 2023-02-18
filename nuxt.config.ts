@@ -1,3 +1,6 @@
+import en from './lang/en'
+import ru from './lang/ru'
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   ssr: false,
@@ -19,6 +22,7 @@ export default defineNuxtConfig({
 
   modules: [
     '@nuxtjs/tailwindcss',
+    '@nuxtjs/i18n',
   ],
 
   css: [
@@ -27,5 +31,24 @@ export default defineNuxtConfig({
 
   tailwindcss: {
     viewer: false,
+  },
+
+  i18n: {
+    locales: ['en', 'ru'],
+    defaultLocale: 'en',
+
+    vueI18n: {
+      legacy: false,
+      globalInjection: true,
+      messages: { ru, en },
+    },
+
+    // detectBrowserLanguage: false,
+    detectBrowserLanguage: {
+      useCookie: false,
+      alwaysRedirect: true,
+      fallbackLocale: 'en',
+      redirectOn: 'root',
+    },
   },
 })

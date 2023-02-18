@@ -21,7 +21,7 @@ watch(()=>[props.progress.prepare], ([prepare])=>{
 
 <template lang="pug">
 Card.mb-4
-  template(#title) Готовимся
+  template(#title) {{ $t('ready') }}
   template(#body)
     .h-28.p-2.flex.items-center.justify-center
       Transition(

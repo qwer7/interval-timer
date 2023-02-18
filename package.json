@@ -10,6 +10,7 @@
     "pages": "yarn generate && yarn deploy"
   },
   "devDependencies": {
+    "@nuxtjs/i18n": "^8.0.0-beta.9",
     "@nuxtjs/tailwindcss": "^6.3.1",
     "@volar/vue-language-plugin-pug": "^1.0.24",
     "nuxt": "^3.1.2",

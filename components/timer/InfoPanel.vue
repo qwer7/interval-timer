@@ -15,11 +15,11 @@ const timeLeft = computed(() => countdown.timeLeft(props.progress) )
 <template lang="pug">
 .mb-4.grid.grid-cols-2.gap-4
   Card
-    template(#title) Раунды
+    template(#title) {{ $t('rounds') }}
     template(#text)
       .text-3xl {{ currentRound }} / {{ totalRounds }}
   Card
-    template(#title) Осталось
+    template(#title) {{ $t('timeLeft') }}
     template(#text)
       .text-3xl {{ timeLeft }}
 </template>
