@@ -1,34 +1,40 @@
 import { Progress } from "~~/components/timer/types";
 
-const defaultTimerSetting = {
+export const defaultTimerSetting = {
   prepare: 3,
   work: 15,
   relax: 7,
   rounds: 15,
 }
-// const defaultTimerSetting = {
-//   prepare: 3,
-//   work: 4,
-//   relax: 5,
-//   rounds: 2,
-// }
 
-export const currentTimeSetting = { ...defaultTimerSetting }
+// TODO move to storage module
+const localStorageKey = 'countdown_settings'
+
+export function getLocalStorageSetting() {
+  const localStorageSetting = JSON.parse(localStorage.getItem(localStorageKey) ?? '{}')
+  return { ...defaultTimerSetting, ...localStorageSetting }
+}
+export function setLocalStorageSetting(value:unknown) {
+  localStorage.setItem(localStorageKey, JSON.stringify(value))
+  currentTimeSetting = value
+}
+
+export let currentTimeSetting = { ...getLocalStorageSetting() }
 
 function oneRoundTime() {
   return currentTimeSetting.relax + currentTimeSetting.work
 }
 
-// TODO: fix error for first round
 export function allTime(obj: Progress, oneRound: number = oneRoundTime() ) {
   const completeRoundsTime = obj.rounds > 1 ? (obj.rounds - 1) * oneRound : 0
   return obj.prepare + (obj.work + obj.relax) + completeRoundsTime
 }
 
 function getResetProgress() {
-  return { ...currentTimeSetting }
+  return  { ...currentTimeSetting }
 }
 
+// TODO: to many if. Need refactor
 function tick(inputProgress: Progress, event = (name:string)=>{} ): Progress {
   const progress = { ...inputProgress }
   if( progress.prepare ){
@@ -37,7 +43,6 @@ function tick(inputProgress: Progress, event = (name:string)=>{} ): Progress {
       progress.rounds--
       event('beforeWork')
     }
-
   }
   else if( progress.work ){
     progress.work--

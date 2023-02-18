@@ -8,4 +8,6 @@ export default {
   ready: 'Готовимся',
   work: 'Работем',
   relax: 'Отдыхаем',
+  finish: 'Финиш',
+  resetSettings: 'Сброс настроек',
 }

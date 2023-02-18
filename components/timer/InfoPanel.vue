@@ -17,9 +17,9 @@ const timeLeft = computed(() => countdown.timeLeft(props.progress) )
   Card
     template(#title) {{ $t('rounds') }}
     template(#text)
-      .text-3xl {{ currentRound }} / {{ totalRounds }}
+      .text-3xl.font-mono {{ currentRound }}/{{ totalRounds }}
   Card
     template(#title) {{ $t('timeLeft') }}
     template(#text)
-      .text-3xl {{ timeLeft }}
+      .text-3xl.font-mono {{ timeLeft }}
 </template>

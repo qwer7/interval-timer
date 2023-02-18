@@ -5,7 +5,6 @@
         border-sky-500/20 hover:border-sky-500/50
         dark:text-sky-200/40 dark:bg-sky-100/10
         dark:border-sky-200/30 dark:hover:border-sky-200/50`
-  @click="$emit('click')"
 )
   slot
 </template>

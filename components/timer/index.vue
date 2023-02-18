@@ -24,11 +24,6 @@ function everySecond(second: number){
 
 const status = computed<Status>(()=> countdown.getStatus(progress.value, isRunning.value));
 
-function onReStart(){
-  resetProgress()
-  isRunning.value = false
-}
-
 function onStart(){
   if(status.value === 'wait'){
     resetProgress()
@@ -37,8 +32,8 @@ function onStart(){
 }
 
 function onStop(){
-  isRunning.value = false
   resetProgress()
+  isRunning.value = false
 }
 
 function onPause(){
@@ -49,7 +44,7 @@ function onPause(){
 <template lang="pug">
 div(
   class=` p-0 w-full h-full
-          sm:p-4 sm:w-auto sm:h-auto sm:rounded-lg
+          sm:p-4 sm:w-auto sm:h-[470px] sm:rounded-lg
           backdrop-blur bg-white/20`
 )
   div(
@@ -62,20 +57,23 @@ div(
       :enable="isRunning"
       @tick="everySecond"
     )
-    //- Main countdown panel
-    TimerCountdownPanel(
-      :progress="progress"
-      :status="status"
-    )
-    //- Info panel
-    TimerInfoPanel(:progress="progress")
-    //- Command panel
-    template(v-if="['wait', 'pause'].includes(status)")
-      Button(@click="onStart") {{ $t('start') }}
-    template(v-else-if="isRunning")
-      .grid.grid-cols-2.gap-4
-        Button(@click="onStop") {{ $t('stop') }}
-        Button(@click="onPause") {{ $t('pause') }}
-    template(v-else)
-      Button(@click="onReStart") {{ $t('restart') }}
+    .flex.flex-col.justify-between
+      Settings(v-if="status==='wait'")
+      template(v-else)
+        //- Main countdown panel
+        TimerCountdownPanel(
+          :progress="progress"
+          :status="status"
+        )
+        //- Info panel
+        TimerInfoPanel(:progress="progress")
+      //- Command panel
+      template(v-if="['wait', 'pause'].includes(status)")
+        Button(@click="onStart") {{ $t('start') }}
+      template(v-else-if="isRunning")
+        .grid.grid-cols-2.gap-4
+          Button(@click="onStop") {{ $t('stop') }}
+          Button(@click="onPause") {{ $t('pause') }}
+      template(v-else)
+        Button(@click="onStop") {{ $t('restart') }}
 </template>

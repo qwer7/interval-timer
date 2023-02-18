@@ -8,4 +8,6 @@ export default {
   ready: 'Ready',
   work: 'Work',
   relax: 'Relax',
+  finish: 'Finish',
+  resetSettings: 'Reset settings',
 }

@@ -16,7 +16,7 @@ const runningTitle = computed<string>(() => {
     'relax': t('relax'),
   }
   const runningStatus = countdown.getStatus(props.progress, true) as keyof typeof title
-  return title[runningStatus] ?? ''
+  return title[runningStatus] ?? t('finish')
 })
 
 const countdownTime = computed<string>(() => {
