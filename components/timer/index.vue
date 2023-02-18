@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Progress } from './types';
+import type { Progress, Status } from './types';
 import { sounds, playSound } from "~~/modules/sounds"
 import { countdown } from '~~/modules/countdown';
 
@@ -23,6 +23,8 @@ function everySecond(second: number){
   }
 }
 
+const status = computed<Status>(()=> countdown.getStatus(progress.value, isRunning.value));
+
 function onReStart(){
   resetProgress()
   isRunning.value = false
@@ -43,24 +45,6 @@ function onStop(){
 function onPause(){
   isRunning.value = false
 }
-
-type Status = 'wait' | 'pause' | 'prepare' | 'work' | 'relax' | 'restart'
-const status = computed<Status>(()=> countdown.getStatus(progress.value, isRunning.value));
-
-const runningTitle = computed<string>(() => {
-  const title = {
-    'prepare': 'Готовимся',
-    'work': 'Работаем',
-    'relax': 'Отдыхаем',
-  }
-  const runningStatus = countdown.getStatus(progress.value, true) as keyof typeof title
-  return title[runningStatus] ?? ''
-})
-
-const countdownTime = computed<string>(() => {
-  const positiveTime = progress.value.prepare || progress.value.work || progress.value.relax
-  return countdown.toTimeFormat(positiveTime)
-})
 </script>
 
 <template lang="pug">
@@ -80,25 +64,19 @@ div(
       @tick="everySecond"
     )
     //- Main countdown panel
-    div
-      template(v-if="['prepare'].includes(status)")
-        TimerPrepareAnimated(:progress="progress")
-      template(v-else)
-        Card.mb-4
-          template(#title) {{ runningTitle }}
-          template(#text)
-            .text-8xl.font-mono {{ countdownTime }}
-
-      //- Info panel
-      TimerInfoPanel(:progress="progress")
-
-      //- Command panel
-      template(v-if="['wait', 'pause'].includes(status)")
-        Button(@click="onStart") Старт
-      template(v-else-if="isRunning")
-        .grid.grid-cols-2.gap-4
-          Button(@click="onStop") Стоп
-          Button(@click="onPause") Пауза
-      template(v-else)
-        Button(@click="onReStart") Перезапуск
+    TimerCountdownPanel(
+      :progress="progress"
+      :status="status"
+    )
+    //- Info panel
+    TimerInfoPanel(:progress="progress")
+    //- Command panel
+    template(v-if="['wait', 'pause'].includes(status)")
+      Button(@click="onStart") Старт
+    template(v-else-if="isRunning")
+      .grid.grid-cols-2.gap-4
+        Button(@click="onStop") Стоп
+        Button(@click="onPause") Пауза
+    template(v-else)
+      Button(@click="onReStart") Перезапуск
 </template>

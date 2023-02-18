@@ -4,3 +4,5 @@ export interface Progress{
   relax: number
   rounds: number
 }
+
+export type Status = 'wait' | 'pause' | 'prepare' | 'work' | 'relax' | 'restart'
