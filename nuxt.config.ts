@@ -26,13 +26,14 @@ export default defineNuxtConfig({
     },
   },
 
+  css: [
+    '~/assets/css/index.css',
+  ],
+
   modules: [
     '@nuxtjs/tailwindcss',
     '@nuxtjs/i18n',
-  ],
-
-  css: [
-    '~/assets/css/index.css',
+    '@nuxtjs/color-mode',
   ],
 
   tailwindcss: {
@@ -57,4 +58,8 @@ export default defineNuxtConfig({
       redirectOn: 'root',
     },
   },
+
+  colorMode: {
+    classSuffix: '',
+  }
 })

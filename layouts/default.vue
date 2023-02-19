@@ -7,6 +7,24 @@ useHead({
 const classes = computed(() => {
   return ['']
 })
+
+const { locale, locales } = useI18n()
+
+// TODO: to localStorage locale module
+function detectSavedLanguage(){
+  try {
+    const lsLocale = JSON.parse(localStorage.getItem('locale') ?? '')
+    if(locales.value.includes(lsLocale)){
+      locale.value = lsLocale
+    }
+  } catch (error) {
+
+  }
+}
+
+onMounted(()=>{
+  detectSavedLanguage();
+})
 </script>
 
 <template lang="pug">

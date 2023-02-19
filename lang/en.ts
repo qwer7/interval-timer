@@ -10,4 +10,8 @@ export default {
   relax: 'Relax',
   finish: 'Finish',
   resetSettings: 'Reset settings',
+  reset: 'Reset',
+  auto: 'Auto',
+  dark: 'Dark',
+  light: 'Light',
 }

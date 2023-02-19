@@ -10,4 +10,8 @@ export default {
   relax: 'Отдыхаем',
   finish: 'Финиш',
   resetSettings: 'Сброс настроек',
+  reset: 'Сброс',
+  auto: 'Системная',
+  dark: 'Темная',
+  light: 'Светлая',
 }
