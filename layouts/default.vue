@@ -10,7 +10,7 @@ const classes = computed(() => {
 </script>
 
 <template lang="pug">
-Body(
+Body.touch-manipulation(
   class=` bg-gradient-to-br from-[#888bab] via-[#b899c8] to-[#94bec7]
           dark:from-[#303247] dark:via-[#372541] dark:to-[#32545b]`
 )

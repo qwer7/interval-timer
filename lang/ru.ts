@@ -6,7 +6,7 @@ export default {
   rounds: 'Раунды',
   timeLeft: 'Осталось',
   ready: 'Готовимся',
-  work: 'Работем',
+  work: 'Работаем',
   relax: 'Отдыхаем',
   finish: 'Финиш',
   resetSettings: 'Сброс настроек',

@@ -10,6 +10,12 @@ export default defineNuxtConfig({
     buildAssetsDir: "/i/",
 
     head: {
+      meta: [
+        {
+          name: 'viewport',
+          content: 'width=device-width, user-scalable=no'
+        },
+      ],
       link: [
         {
           rel: 'icon',

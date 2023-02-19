@@ -1,5 +1,5 @@
 <template lang="pug">
-.cursor-pointer.select-none.p-2.px-8.text-3xl.leading-none.text-center.border-2.rounded-lg(
+.cursor-pointer.select-none.p-2.px-8.overflow-hidden.text-3xl.leading-none.text-center.border-2.rounded-lg(
   class=`w-full
         text-gray-500 bg-sky-50
         border-sky-500/20 hover:border-sky-500/50
