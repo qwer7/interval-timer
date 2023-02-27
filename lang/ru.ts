@@ -14,4 +14,5 @@ export default {
   auto: 'Системная',
   dark: 'Темная',
   light: 'Светлая',
+  totalTime: 'Всего времени',
 }

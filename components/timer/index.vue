@@ -57,7 +57,9 @@ div(
       :enable="isRunning"
       @tick="everySecond"
     )
-    .flex.flex-col.justify-between
+    .flex.flex-col.justify-between(
+      class="sm:h-full"
+    )
       Settings(v-if="status==='wait'")
       template(v-else)
         //- Main countdown panel

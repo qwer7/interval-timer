@@ -14,4 +14,5 @@ export default {
   auto: 'Auto',
   dark: 'Dark',
   light: 'Light',
+  totalTime: 'Total time',
 }
