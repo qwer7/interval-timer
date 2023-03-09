@@ -1,4 +1,4 @@
-export interface Progress{
+export interface Progress {
   prepare: number
   work: number
   relax: number

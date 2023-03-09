@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import debounce from 'lodash.debounce'
-import { setLocalStorageSetting, countdown, defaultTimerSetting } from '~~/modules/countdown';
+import { countdown, defaultTimerSetting, setLocalStorageSetting } from '~~/modules/countdown'
 
-const timeSetting = ref({...countdown.getResetProgress()})
+const timeSetting = ref({ ...countdown.getResetProgress() })
 
 // const totalTime = ref(countdown.toTimeFormat(countdown.allTime(timeSetting.value)))
 const totalTime = computed(() => countdown.toTimeFormat(countdown.allTime(timeSetting.value)))
@@ -11,11 +11,11 @@ function reset() {
   timeSetting.value = { ...defaultTimerSetting }
 }
 
-const saveToStorage = debounce(()=>{
+const saveToStorage = debounce(() => {
   setLocalStorageSetting(timeSetting.value)
 }, 250)
 
-watch(timeSetting, () => saveToStorage(), {deep: true})
+watch(timeSetting, () => saveToStorage(), { deep: true })
 </script>
 
 <template lang="pug">

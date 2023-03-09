@@ -3,7 +3,7 @@ const { locale } = useI18n()
 
 function toggleLanguage() {
   locale.value = locale.value === 'ru' ? 'en' : 'ru'
-  //TODO module
+  // TODO module
   localStorage.setItem('locale', JSON.stringify(locale.value))
 }
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { countdown } from '~~/modules/countdown'
 import type { Progress } from './types'
+import { countdown } from '~~/modules/countdown'
 
 const props = defineProps<{
   progress: Progress
@@ -8,8 +8,7 @@ const props = defineProps<{
 
 const currentRound = computed(() => countdown.toPositiveProgress(props.progress).rounds)
 const totalRounds = computed(() => countdown.getResetProgress().rounds)
-const timeLeft = computed(() => countdown.timeLeft(props.progress) )
-
+const timeLeft = computed(() => countdown.timeLeft(props.progress))
 </script>
 
 <template lang="pug">

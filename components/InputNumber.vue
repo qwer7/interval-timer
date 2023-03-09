@@ -23,7 +23,8 @@ function decrease() {
 let pressTimer = 0
 
 function multiStart(fn: typeof increase) {
-  if(pressTimer) multiStop()
+  if (pressTimer)
+    multiStop()
   pressTimer = setInterval(() => fn(), 200)
 }
 
@@ -39,7 +40,7 @@ function multiStop() {
 )
   div(class="mr-4 sm:mr-0 flex-grow text-right text-xl font-medium opacity-50") {{ label }}:
   .flex.items-center.justify-between(
-    class=`w-7/12 sm:w-full`
+    class="w-7/12 sm:w-full"
   )
     .select-none.text-3xl.leading-none.text-center.border-2.rounded-lg.overflow-hidden(
       class=`w-full flex items-stretch justify-between
@@ -67,5 +68,4 @@ function multiStop() {
         @touchend="multiStop"
         @click="increase"
       ) +
-
 </template>

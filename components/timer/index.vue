@@ -1,42 +1,44 @@
 <script setup lang="ts">
-import type { Progress, Status } from './types';
-import { sounds, playSound } from "~~/modules/sounds"
-import { countdown } from '~~/modules/countdown';
+import type { Progress, Status } from './types'
+import { playSound, sounds } from '~~/modules/sounds'
+import { countdown } from '~~/modules/countdown'
 
 const isRunning = ref(false)
 const progress = ref<Progress>(countdown.getResetProgress())
 
-function resetProgress(){
+function resetProgress() {
   progress.value = countdown.getResetProgress()
 }
 
 function countdownEvent(name: string) {
-  if(name === 'beforeWork') playSound(sounds.start)
-  if(name === 'beforeRelax') playSound(sounds.relax)
-  if(name === 'end') isRunning.value = false
+  if (name === 'beforeWork')
+    playSound(sounds.start)
+  if (name === 'beforeRelax')
+    playSound(sounds.relax)
+  if (name === 'end')
+    isRunning.value = false
 }
 
-function everySecond(second: number){
-  if(isRunning.value){
+function everySecond(_second: number) {
+  if (isRunning.value)
     progress.value = countdown.tick(progress.value, countdownEvent)
-  }
 }
 
-const status = computed<Status>(()=> countdown.getStatus(progress.value, isRunning.value));
+const status = computed<Status>(() => countdown.getStatus(progress.value, isRunning.value))
 
-function onStart(){
-  if(status.value === 'wait'){
+function onStart() {
+  if (status.value === 'wait')
     resetProgress()
-  }
+
   isRunning.value = true
 }
 
-function onStop(){
+function onStop() {
   resetProgress()
   isRunning.value = false
 }
 
-function onPause(){
+function onPause() {
   isRunning.value = false
 }
 </script>
@@ -60,7 +62,7 @@ div(
     .flex.flex-col.justify-between(
       class="sm:h-full"
     )
-      Settings(v-if="status==='wait'")
+      Settings(v-if="status === 'wait'")
       template(v-else)
         //- Main countdown panel
         TimerCountdownPanel(

@@ -11,12 +11,10 @@ function startPrepareAnimation() {
   prepareAnimation.value = true
 }
 
-watch(()=>[props.progress.prepare], ([prepare])=>{
-  if(!prepareAnimation.value && prepare){
-    setTimeout(startPrepareAnimation,0)
-  }
-}, {immediate: true})
-
+watch(() => [props.progress.prepare], ([prepare]) => {
+  if (!prepareAnimation.value && prepare)
+    setTimeout(startPrepareAnimation, 0)
+}, { immediate: true })
 </script>
 
 <template lang="pug">
@@ -32,7 +30,6 @@ Card.mb-4
           v-if="prepareAnimation"
         ) {{ progress.prepare }}
 </template>
-
 
 <style>
 .countdown-enter-active {

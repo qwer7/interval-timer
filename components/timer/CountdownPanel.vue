@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { countdown } from '~~/modules/countdown'
 import type { Progress, Status } from './types'
+import { countdown } from '~~/modules/countdown'
 
 const props = defineProps<{
   progress: Progress
@@ -11,9 +11,9 @@ const { t } = useI18n()
 
 const runningTitle = computed<string>(() => {
   const title = {
-    'prepare': t('ready'),
-    'work': t('work'),
-    'relax': t('relax'),
+    prepare: t('ready'),
+    work: t('work'),
+    relax: t('relax'),
   }
   const runningStatus = countdown.getStatus(props.progress, true) as keyof typeof title
   return title[runningStatus] ?? t('finish')

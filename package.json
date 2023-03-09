@@ -10,12 +10,19 @@
     "pages": "yarn generate && yarn deploy"
   },
   "devDependencies": {
+    "@antfu/eslint-config": "^0.36.0",
     "@nuxtjs/color-mode": "^3.2.0",
+    "@nuxtjs/eslint-config-typescript": "^12.0.0",
     "@nuxtjs/i18n": "^8.0.0-beta.9",
     "@nuxtjs/tailwindcss": "^6.3.1",
+    "@typescript-eslint/parser": "^5.54.1",
     "@volar/vue-language-plugin-pug": "^1.0.24",
+    "eslint": "^8.35.0",
+    "eslint-plugin-vue": "^9.9.0",
+    "eslint-plugin-vue-pug": "^0.6.0",
     "nuxt": "^3.1.2",
     "push-dir": "^0.4.1",
+    "typescript": "^4.9.5",
     "vite-plugin-pug": "^0.3.2"
   },
   "dependencies": {

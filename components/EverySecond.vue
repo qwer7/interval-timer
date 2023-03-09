@@ -8,26 +8,23 @@ const emit = defineEmits(['tick'])
 let interval = 0
 let counter = 0
 
-function everySecond(){
+function everySecond() {
   counter++
   emit('tick', counter)
 }
 
 function startInterval() {
-  interval = setInterval(()=>{
+  interval = setInterval(() => {
     everySecond()
   }, 1000)
 }
 
-onBeforeUnmount(()=> {
+onBeforeUnmount(() => {
   interval && clearInterval(interval)
 })
 
-watch(() => props.enable, (enable)=>{
+watch(() => props.enable, (enable) => {
   interval && clearInterval(interval)
   enable && startInterval()
 })
 </script>
-
-<template lang="pug">
-</template>
